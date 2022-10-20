@@ -12,6 +12,7 @@ from composer.callbacks import ThresholdStopper
 from composer.core.time import TimeUnit
 from composer.trainer.devices.device_cpu import DeviceCPU
 from composer.trainer.devices.device_gpu import DeviceGPU
+from composer.utils import dist
 from tests.common import RandomClassificationDataset, SimpleModel, device
 from tests.metrics import MetricSetterCallback
 
@@ -36,10 +37,21 @@ def test_threshold_stopper_eval(metric_sequence: List[float], unit: TimeUnit, de
     test_metric_setter = MetricSetterCallback('Accuracy', dataloader_label, Accuracy, metric_sequence, unit,
                                               test_device)
 
+    train_dataset = RandomClassificationDataset()
+    eval_dataset = RandomClassificationDataset()
+
     trainer = Trainer(
         model=SimpleModel(),
-        train_dataloader=DataLoader(RandomClassificationDataset()),
-        eval_dataloader=DataLoader(RandomClassificationDataset()),
+        train_dataloader=DataLoader(
+            dataset=train_dataset,
+            batch_size=2 // dist.get_world_size(),
+            sampler=dist.get_sampler(train_dataset),
+        ),
+        eval_dataloader=DataLoader(
+            dataset=eval_dataset,
+            batch_size=2 // dist.get_world_size(),
+            sampler=dist.get_sampler(eval_dataset),
+        ),
         train_subset_num_batches=1,
         eval_subset_num_batches=1,
         device=test_device,

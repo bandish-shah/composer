@@ -12,6 +12,7 @@ from composer.callbacks.early_stopper import EarlyStopper
 from composer.core.time import Time, TimeUnit
 from composer.trainer.devices.device_cpu import DeviceCPU
 from composer.trainer.devices.device_gpu import DeviceGPU
+from composer.utils import dist
 from tests.common import RandomClassificationDataset, SimpleModel, device
 from tests.metrics import MetricSetterCallback
 
@@ -33,15 +34,20 @@ def test_early_stopper(metric_sequence: List[float], unit: TimeUnit, device: str
     test_metric_setter = MetricSetterCallback('Accuracy', dataloader_label, Accuracy, metric_sequence, unit,
                                               test_device)
 
+    train_dataset = RandomClassificationDataset(shape=(5, 1, 1))
+    eval_dataset = RandomClassificationDataset(shape=(5, 1, 1))
+
     trainer = Trainer(
         model=SimpleModel(num_features=5),
         train_dataloader=DataLoader(
-            RandomClassificationDataset(shape=(5, 1, 1)),
-            batch_size=4,
+            dataset=train_dataset,
+            batch_size=4 // dist.get_world_size(),
+            sampler=dist.get_sampler(train_dataset),
         ),
         eval_dataloader=DataLoader(
-            RandomClassificationDataset(shape=(5, 1, 1)),
-            batch_size=4,
+            dataset=eval_dataset,
+            batch_size=4 // dist.get_world_size(),
+            sampler=dist.get_sampler(train_dataset),
         ),
         max_duration='30ep',
         callbacks=[test_metric_setter, early_stopper],
