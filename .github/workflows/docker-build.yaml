@@ -47,7 +47,7 @@ jobs:
 
       - name: Calculate Docker Image Variables
         run: |
-          set -euo pipefail
+          set -exuo pipefail
 
           ###################
           # Image config
@@ -60,6 +60,7 @@ jobs:
           echo "BUILD_ARGS: ${{ toJSON(matrix.BUILD_ARGS) }}"
 
           echo "${{ toJSON(matrix.BUILD_ARGS) }}" >> build_args.json
+          cat build_args.json
           BUILD_ARGS=$(jq -r 'to_entries | .[] | "\"\(.key)\"=\"\(.value)\""' build_args.json)
           echo "BUILD_ARGS=$BUILD_ARGS" >> ${GITHUB_ENV}
 
