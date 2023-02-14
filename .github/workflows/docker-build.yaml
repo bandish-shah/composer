@@ -59,8 +59,7 @@ jobs:
           echo "UUID: ${{ matrix.UUID }}"
           echo "BUILD_ARGS: ${{ toJSON(matrix.BUILD_ARGS) }}"
 
-          BUILD_ARGS=$(jq -r 'to_entries | .[] | "\"\(.key)\"=\"\(.value)\""' ${{ matrix.BUILD_ARGS }})
-          echo "BUILD_ARGS=$BUILD_ARGS" >> ${GITHUB_ENV}
+          echo "${{ toJSON(matrix.BUILD_ARGS) }} | $(jq -r 'to_entries | .[] | "\"\(.key)\"=\"\(.value)\""'
 
 
           ###################
