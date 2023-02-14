@@ -47,7 +47,7 @@ jobs:
 
       - name: Calculate Docker Image Variables
         run: |
-          set -euxo pipefail
+          set -euo pipefail
 
           ###################
           # Image config
