@@ -58,7 +58,7 @@ jobs:
           echo "TAGS: ${{ matrix.TAGS }}"
           echo "UUID: ${{ matrix.UUID }}"
           echo "BUILD_ARGS:${{ toJSON(matrix.BUILD_ARGS) }}"
-          echo "BUILD_ARGS=$(${{ toJSON(matrix.BUILD_ARGS) }} | jq -r 'to_entries | .[] | "\"\(.key)\"=\"\(.value)\""') >> ${GITHUB_ENV}
+          echo "BUILD_ARGS=$(echo ${{ toJSON(matrix.BUILD_ARGS) }} | jq -r 'to_entries | .[] | "\"\(.key)\"=\"\(.value)\""') >> ${GITHUB_ENV}
 
           ###################
           # Calculate the tag
