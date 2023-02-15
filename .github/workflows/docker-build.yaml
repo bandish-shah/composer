@@ -82,4 +82,4 @@ jobs:
           push: ${{ inputs.push }}
           cache-from: type=registry,ref=${{ env.IMAGE_CACHE }}
           cache-to: type=registry,ref=${{ env.IMAGE_CACHE }},mode=max
-          build-args: ${{ inputs.build_args }}
+          build-args: ${{ inputs.build-args }}
