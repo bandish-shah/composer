@@ -9,7 +9,8 @@ on:
       - release/**
     paths:
       - .github/bin/gen_docker_matrix.py
-      - .github/workflows/docker**
+      - .github/workflows/docker-build.yaml
+      - .github/workflows/pr-docker.yaml
       - docker/**
 defaults:
   run:
