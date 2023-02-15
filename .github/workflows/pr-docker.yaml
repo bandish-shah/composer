@@ -41,6 +41,7 @@ jobs:
     strategy:
       fail-fast: true
       matrix: ${{ fromJSON(needs.build-image-matrix.outputs.matrix) }}
+    name: ${{ matrix.IMAGE_NAME }}
     with:
       build-args: |
         AWS_OFI_NCCL_VERSION=${{ matrix.AWS_OFI_NCCL_VERSION }}

@@ -37,7 +37,6 @@ on:
 jobs:
   build-images:
     runs-on: ubuntu-latest
-    name: ${{ inputs.image-name }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
