@@ -1,6 +1,4 @@
 name: PR Docker
-env:
-  STAGING_REPO: mosaicml/ci-staging
 on:
   pull_request:
     branches:
@@ -60,7 +58,7 @@ jobs:
       image-uuid: ${{ matrix.UUID }}
       push: false
       staging: true
-      staging-repo: ${{ env.STAGING_REPO }}
+      staging-repo: mosaicml/ci-staging
       tags: ${{ matrix.TAGS }}
       target: ${{ matrix.TARGET }}
     secrets:
