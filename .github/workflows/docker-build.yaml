@@ -1,4 +1,4 @@
-name: Docker Build
+name: Docker Image Configure-Build-Push
 on:
   workflow_call:
     inputs:
@@ -35,7 +35,7 @@ on:
       password:
         required: true
 jobs:
-  build-images:
+  configure-build-push:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
