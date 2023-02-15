@@ -59,7 +59,7 @@ jobs:
           echo "UUID: ${{ matrix.UUID }}"
           echo "BUILD_ARGS: ${{ toJSON(matrix.BUILD_ARGS) }}"
 
-          BUILD_ARGS=$(python .github/bin/gen_docker_matrix.py docker/build_matrix.yaml --get_image_build_args ${{ matrix.IMAGE_NAME }} | jq -r 'to_entries | map("\(.key)=\(.value|tostring)") | join("\n")')
+          BUILD_ARGS=$(python .github/bin/gen_docker_matrix.py docker/build_matrix.yaml --get_image_build_args ${{ matrix.IMAGE_NAME }} | jq -r 'to_entries | map("\(.key)=\(.value|tostring)") | join(" ")')
           echo "BUILD_ARGS=$BUILD_ARGS" >> ${GITHUB_ENV}
 
 
